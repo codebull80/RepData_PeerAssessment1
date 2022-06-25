@@ -1,25 +1,94 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
----
+# Course Project 1
 
+## Activity Monitoring Data analysis
 
-## Loading and preprocessing the data
+### Loading and preprocessing the data
 
+This code, after loading the libraries, loads the data and parse the *date* variable
 
+```{r}
+library(tidyverse)
+library(lubridate)
+t<- read.csv(unzip("activity.zip"))
+t$date <-  ymd(t$date)
+```
 
-## What is mean total number of steps taken per day?
+aggregate() function calculates total steps for each day:
 
+```{r}
+daily_steps <- aggregate(steps~date,t, sum)
 
+```
 
-## What is the average daily activity pattern?
+This code plots the histogram of the distribution of daily steps and calculate summary statistics
 
+```{r}
+hist(daily_steps$steps, main="distribution of daily steps")
+summary(daily_steps$steps)
+```
 
+Here we evaluate the average number of daily steps across the intervals of time
 
-## Imputing missing values
+```{r}
+avg_daily_5m_int <- aggregate(steps~interval, t, mean)
 
+ggplot(data=avg_daily_5m_int, mapping=aes(x=interval, y=steps))+
+  geom_line()+
+  labs(title="Average number of daily steps per interval")  
 
+```
 
-## Are there differences in activity patterns between weekdays and weekends?
+We look for the 5-minute interval that contains the maximum number of steps on average across all the days in the dataset:
+
+```{r}
+avg_daily_5m_int[which.max(avg_daily_5m_int$steps),]$interval
+```
+
+This calculate and report the total number of missing values in the dataset
+
+```{r}
+
+na_list<- is.na(t$steps)
+sum(na_list)
+```
+
+Dealing with missing values. They are imputed with the mean for that particular 5 minutes interval
+A new dataset that is equal to the original dataset but with the missing data filled in is created.
+
+```{r}
+match<- match(t$interval, avg_daily_5m_int$interval)
+
+avg<- avg_daily_5m_int[match,][,2]
+
+t<- cbind(t,avg)
+
+imputed_t<- mutate(t, Steps=ifelse(na_list, t$avg, t$steps))
+
+```
+
+This makes a histogram of the total number of steps taken each day and calculate summary statitics
+```{r}
+
+imputed_daily_steps <- aggregate(Steps~date,imputed_t, sum)
+hist(imputed_daily_steps$Steps, main="distribution of daily steps")
+
+summary(imputed_daily_steps$Steps)
+
+```
+They are quite similar to the results of the original dataset
+
+This creates a new factor variable in the dataset with two levels – “weekday” and “weekend” indicating whether a given date is a weekday or weekend day.
+```{r}
+imputed_t<- mutate(imputed_t, week_day=ifelse(wday(imputed_t$date)==1 |wday(imputed_t$date)==7, "Weekend", "Weekday"))
+
+avg_daily_5m_int_week <- aggregate(Steps~interval+week_day, imputed_t, mean)
+
+```
+
+A time series plot of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis).
+```{r}
+ggplot(data=avg_daily_5m_int_week, mapping=aes(x=interval, y=Steps, color=week_day))+
+  geom_line()+
+  labs(title="Average number of daily steps per interval") +
+  facet_wrap(~week_day)
+```
