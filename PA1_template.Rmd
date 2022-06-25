@@ -1,8 +1,8 @@
----
-output: html_document
-self_contained: false
----
+```{r global-options, echo=FALSE}
+ 
+knitr::opts_chunk$set( dev="jpeg", fig.path='Figure/')
 
+```
 
 # Course Project
 
