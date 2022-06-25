@@ -1,7 +1,13 @@
+---
+
+output: rmarkdown::html_vignette
+---
+
 # Course Project
 
-## Activity Monitoring Data analysis
+**Note: i put html_vignette option to reduce file size, you can find full size images in figure folder!**
 
+## Activity Monitoring Data analysis
 
 This code, after loading the libraries, loads the data and parse the *date* variable
 
