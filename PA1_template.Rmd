@@ -1,11 +1,6 @@
----
-
-output: rmarkdown::html_vignette
----
 
 # Course Project
 
-**Note: i put html_vignette option to reduce file size, you can find full size images in figure folder!**
 
 ## Activity Monitoring Data analysis
 
