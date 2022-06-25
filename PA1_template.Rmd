@@ -1,4 +1,4 @@
-# Course Project 1
+# Course Project
 
 ## Activity Monitoring Data analysis
 
