@@ -1,3 +1,9 @@
+```{r global-options, echo=FALSE}
+knitr::opts_chunk$set( dev="png", fig.path='Figs/',
+                      warning=FALSE, message=FALSE)
+```
+
+
 # Course Project
 
 ## Activity Monitoring Data analysis

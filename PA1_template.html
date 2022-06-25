@@ -369,22 +369,9 @@ pre code {
 <h3>Loading and preprocessing the data</h3>
 <p>This code, after loading the libraries, loads the data and parse the
 <em>date</em> variable</p>
-<pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
-<pre><code>## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
-## ✓ tibble  3.1.6     ✓ dplyr   1.0.8
-## ✓ tidyr   1.2.0     ✓ stringr 1.4.0
-## ✓ readr   2.1.2     ✓ forcats 0.5.1</code></pre>
-<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()</code></pre>
-<pre class="r"><code>library(lubridate)</code></pre>
-<pre><code>## 
-## Caricamento pacchetto: &#39;lubridate&#39;</code></pre>
-<pre><code>## I seguenti oggetti sono mascherati da &#39;package:base&#39;:
-## 
-##     date, intersect, setdiff, union</code></pre>
-<pre class="r"><code>t&lt;- read.csv(unzip(&quot;activity.zip&quot;))
+<pre class="r"><code>library(tidyverse)
+library(lubridate)
+t&lt;- read.csv(unzip(&quot;activity.zip&quot;))
 t$date &lt;-  ymd(t$date)</code></pre>
 <p>aggregate() function calculates total steps for each day:</p>
 <pre class="r"><code>daily_steps &lt;- aggregate(steps~date,t, sum)</code></pre>
